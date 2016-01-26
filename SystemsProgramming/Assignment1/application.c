@@ -2,20 +2,26 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <time.h>
+#include <sys/time.h>
 
 #define MY_FILE "output.txt"
 #define FILE_OPEN_ERROR "Could not open or create the file!\n"
 
 #define RECORD_LEN 10
-#define LOOP_TIME 10
+#define LOOP_TIME 1000000
 #define SEQUENCE_LEN 120
 
 void fileWriter(FILE *);
 void compareFile(char[][121], FILE *);
+struct  timeval end;
 
-
-void fileWriter(FILE *file_pointer) {
+/* This method creates a file and writes 10 records to the file.
+ * Each record is a sequence of 120 random characters. These 
+ * sequences are stored in a array for future reference. 
+ * Upon completion of writing to the file, the compareFile()
+ * method is called.
+ */
+ void fileWriter(FILE *file_pointer) {
 
     char sequence       [SEQUENCE_LEN + 1];
     char sequenceHolder [RECORD_LEN] [SEQUENCE_LEN + 1];
@@ -57,7 +63,7 @@ void fileWriter(FILE *file_pointer) {
 */
 void compareFile(char sequenceHolder[][SEQUENCE_LEN + 1], FILE *file_pointer) {
     // counter to keep track of number of incorrect reads, if it's 10, we got problems.
-    int count = 0;
+    int     count = 0;
     // We need to randomly select an index from from our 10 records
     int     randFile = (rand() % RECORD_LEN);
     // String array to store read lines from file +2 to account for the '\0' and \n chars
@@ -75,7 +81,7 @@ void compareFile(char sequenceHolder[][SEQUENCE_LEN + 1], FILE *file_pointer) {
             count++;
         }
         // if we reach 10, that means none of the records match the file, Boo boo.
-        if (count != 10) {
+        if (count == 10) {
             printf("Found no matches");
         }
     }
@@ -84,7 +90,9 @@ void compareFile(char sequenceHolder[][SEQUENCE_LEN + 1], FILE *file_pointer) {
 }
 
 int main() {
-
+    gettimeofday(&end, NULL);
+    printf("%ld\n", (end.tv_sec * 1000000 + end.tv_usec));
+    // get time of day here
     FILE    *file_pointer; // File pointer variable to write to the file.
     char    pid[10]; // char array to store pid string
     char    fileName[SEQUENCE_LEN]; // holds the string for the file name.
