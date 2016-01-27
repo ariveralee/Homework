@@ -8,7 +8,7 @@
 #define FILE_OPEN_ERROR "Could not open or create the file!\n"
 
 #define RECORD_LEN 10
-#define LOOP_TIME 1000000
+#define LOOP_TIME 1000
 #define SEQUENCE_LEN 120
 
 void fileWriter(FILE *);
@@ -16,12 +16,12 @@ void compareFile(char[][121], FILE *);
 struct  timeval end;
 
 /* This method creates a file and writes 10 records to the file.
- * Each record is a sequence of 120 random characters. These 
- * sequences are stored in a array for future reference. 
+ * Each record is a sequence of 120 random characters. These
+ * sequences are stored in a array for future reference.
  * Upon completion of writing to the file, the compareFile()
  * method is called.
  */
- void fileWriter(FILE *file_pointer) {
+void fileWriter(FILE *file_pointer) {
 
     char sequence       [SEQUENCE_LEN + 1];
     char sequenceHolder [RECORD_LEN] [SEQUENCE_LEN + 1];
@@ -73,7 +73,7 @@ void compareFile(char sequenceHolder[][SEQUENCE_LEN + 1], FILE *file_pointer) {
     for (int i = 0; i < RECORD_LEN; i++) {
         fgets(fileInput[i], SEQUENCE_LEN + 2, file_pointer);
 
-        // fgets grabs the newline char as well, in order to properly compare, we must removed it.
+        // fgets grabs the \n char as well, in order to properly compare, we must remove it
         fileInput[i][strlen(fileInput[i]) - 1] = '\0';
 
         // compare the string read from the file to what we have on record
@@ -101,7 +101,7 @@ int main() {
     //Takes the output of getpid and puts it into char array pid
     snprintf(pid, 10, "%d", (int)getpid());
 
-    // Copy the pid to filename, this allows us to have a unique file name (per process)
+    // Copy the pid to filename, this allows us to have a unique file name
     strcpy(fileName, pid);
 
     //add to have a path to create the file.
@@ -117,8 +117,9 @@ int main() {
         printf(FILE_OPEN_ERROR);
     }
 
-    // Delete the file before the program exits.
-    //remove(fileName);
+    // Close the file and Delete the file before the program exits.
+    fclose(file_pointer);
+    remove(fileName);
     return 1;
 }
 

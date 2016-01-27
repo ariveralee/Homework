@@ -5,21 +5,21 @@
 
 #define APPLICATION "app"
 
+void printFailure();
 
 int main () {
-    pid_t pid = fork();
+    pid_t  pid = fork();
     struct timeval start;
 
 
     if (pid == 0) {
         // when you call the other program, the other program replaces you.
-        
-        if (execve(APPLICATION,NULL,NULL) == -1) {
-            printf("Failure");
-            exit(0);
+
+        if (execve(APPLICATION, NULL, NULL) == -1) {
+           printFailure();
 
         }
-        
+
         // in the child process
         // fork returns -1  FORK FAILED if failure
         // 0 if child
@@ -28,13 +28,23 @@ int main () {
 
     else {
         //parent process
-         if (fork() == 0) {
-             gettimeofday(&start, NULL);
-             printf("%ld\n", (start.tv_sec * 1000000 + start.tv_usec));
-             execve(APPLICATION,NULL,NULL);
+        if (fork() == 0) {
+            
+            gettimeofday(&start, NULL);
+            printf("%ld\n", (start.tv_sec * 1000000 + start.tv_usec));
+            
+            if (execve(APPLICATION, NULL, NULL) == -1) {
+                printFailure();
+            }
 
 
-         }
+        }
     }
+}
+
+void printFailure() {
+    printf("Failure");
+    exit(0);
+
 }
 
