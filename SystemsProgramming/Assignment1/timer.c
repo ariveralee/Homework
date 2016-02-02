@@ -7,40 +7,51 @@
 
 void printFailure();
 
+// fork returns -1  FORK FAILED if failure
+// 0 if child
+// > 0 if you're the parent
 int main () {
-    pid_t  pid = fork();
-    struct timeval start;
+    struct  timeval start;
+    struct  timeval start2;
+    pid_t   pid;
+    pid_t   pid2;
+    double  startTime;
+    int     status;
 
+    gettimeofday(&start, NULL);
+    startTime = ((start.tv_sec + start.tv_usec) / 1000000.0);
+    printf("Fork 1 Start time %d :%f\n", getpid(), startTime);
 
-    if (pid == 0) {
-        // when you call the other program, the other program replaces you.
-
+    if ((pid = fork()) == -1) {
+        printFailure();
+    }
+    // the child process
+    if (pid == 0 ) {
         if (execve(APPLICATION, NULL, NULL) == -1) {
-           printFailure();
-
+            printFailure();
         }
 
-        // in the child process
-        // fork returns -1  FORK FAILED if failure
-        // 0 if child
-        // +1 if you're the parent
-    }
+    } else {
+        gettimeofday(&start2, NULL);
+        double  startTime2 = ((start2.tv_sec + start2.tv_usec) / 1000000.0);
+        printf("Fork 2 Start time %d :%f\n", getpid(), startTime2);
 
-    else {
-        //parent process
-        if (fork() == 0) {
-            
-            gettimeofday(&start, NULL);
-            printf("%ld\n", (start.tv_sec * 1000000 + start.tv_usec));
-            
+        if ((pid2 = fork()) == -1) {
+            printFailure();
+        }
+
+        if (pid2 == 0) {
             if (execve(APPLICATION, NULL, NULL) == -1) {
                 printFailure();
             }
-
-
+            // the parent process
+        } else {
+            // wait for everything to finish
+            wait(&status);
         }
     }
 }
+
 
 void printFailure() {
     printf("Failure");

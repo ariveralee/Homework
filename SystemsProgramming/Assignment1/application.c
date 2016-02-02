@@ -8,7 +8,7 @@
 #define FILE_OPEN_ERROR "Could not open or create the file!\n"
 
 #define RECORD_LEN 10
-#define LOOP_TIME 1000
+#define LOOP_TIME 100000
 #define SEQUENCE_LEN 120
 
 void fileWriter(FILE *);
@@ -91,8 +91,9 @@ void compareFile(char sequenceHolder[][SEQUENCE_LEN + 1], FILE *file_pointer) {
 
 int main() {
     gettimeofday(&end, NULL);
-    printf("%ld\n", (end.tv_sec * 1000000 + end.tv_usec));
-    // get time of day here
+    double endTime = ((end.tv_sec + end.tv_usec)/1000000.0);
+    int p = (int)getpid();
+    printf(" PID: %d Reached the App %f\n", p, endTime);
     FILE    *file_pointer; // File pointer variable to write to the file.
     char    pid[10]; // char array to store pid string
     char    fileName[SEQUENCE_LEN]; // holds the string for the file name.
