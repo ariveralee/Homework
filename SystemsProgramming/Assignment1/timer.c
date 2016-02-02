@@ -20,13 +20,13 @@ int main () {
 
     gettimeofday(&start, NULL);
     startTime = ((start.tv_sec + start.tv_usec) / 1000000.0);
-    printf("Start Time 1 for PID %d :%f\n", getpid(), startTime);
+    printf("Fork 1 Start time %d :%f\n", getpid(), startTime);
 
-    pid = fork();
+    if ((pid = fork()) == -1) {
+        printFailure();
+    }
     // the child process
     if (pid == 0 ) {
-        printf("I'm the child: %d:\n", getpid());
-
         if (execve(APPLICATION, NULL, NULL) == -1) {
             printFailure();
         }
@@ -34,19 +34,19 @@ int main () {
     } else {
         gettimeofday(&start2, NULL);
         double  startTime2 = ((start2.tv_sec + start2.tv_usec) / 1000000.0);
-        printf("Start time 2 for PID %d :%f\n", getpid(), startTime2);
+        printf("Fork 2 Start time %d :%f\n", getpid(), startTime2);
 
-        pid2 = fork();
+        if ((pid2 = fork()) == -1) {
+            printFailure();
+        }
 
         if (pid2 == 0) {
-            printf("I'm the child 2 %d:\n", getpid());
-
             if (execve(APPLICATION, NULL, NULL) == -1) {
                 printFailure();
             }
             // the parent process
         } else {
-            printf("I'm the parent: %d\n", getpid());
+            // wait for everything to finish
             wait(&status);
         }
     }
