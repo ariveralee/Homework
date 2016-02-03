@@ -17,7 +17,7 @@ struct  timeval end;
 
 /* This method creates a file and writes 10 records to the file.
  * Each record is a sequence of 120 random characters. These
- * sequences are stored in a array for future reference.
+ * sequences are stored in a array for future comparison.
  * Upon completion of writing to the file, the compareFile()
  * method is called.
  */
@@ -57,9 +57,9 @@ void fileWriter(FILE *file_pointer) {
     }
 }
 
-/* This method randomly selects a record that we have stored and compares it
- * to what we read from the file. This file is compared and prints a statement
- * to confirm.
+/* This method randomly selects a record that we have stored (that was
+ * written to the file) and compares it to what we read from the file.
+ * This file is compared and prints a statement only if no matches are found.
 */
 void compareFile(char sequenceHolder[][SEQUENCE_LEN + 1], FILE *file_pointer) {
     // counter to keep track of number of incorrect reads, if it's 10, we got problems.
@@ -91,8 +91,10 @@ void compareFile(char sequenceHolder[][SEQUENCE_LEN + 1], FILE *file_pointer) {
 
 int main() {
     gettimeofday(&end, NULL);
-    double endTime = ((end.tv_sec + end.tv_usec)/1000000.0);
+    double endTime = ((end.tv_sec + end.tv_usec) / 1000000.0);
     int p = (int)getpid();
+
+    // grabs the time we reach the file
     printf(" PID: %d Reached the App %f\n", p, endTime);
     FILE    *file_pointer; // File pointer variable to write to the file.
     char    pid[10]; // char array to store pid string
