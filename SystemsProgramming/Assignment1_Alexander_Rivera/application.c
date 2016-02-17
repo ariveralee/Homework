@@ -8,7 +8,7 @@
 #define FILE_OPEN_ERROR "Could not open or create the file!\n"
 
 #define RECORD_LEN 10
-#define LOOP_TIME 1000000
+#define LOOP_TIME 10000
 #define SEQUENCE_LEN 120
 
 void fileWriter(FILE *);
