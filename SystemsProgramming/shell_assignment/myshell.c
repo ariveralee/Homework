@@ -32,7 +32,7 @@ void  shell_loop() {
     // need to tokenize the arguments so we know what is going on
     args = read_args(readLine);
     // based on this we know what commands to run
-    //status = run_execute(args);
+    status = execute_cmd(args);
 
     //need to free everything so don't have memory leaks
     free(readLine);
@@ -70,7 +70,7 @@ char **read_args(char *line) {
     if (index >= bufferSize) {
       // if there is not enough space, we add addtional to take the input
       bufferSize += LINE_BUFFSIZE;
-                    tokens = realloc(tokens, bufferSize * sizeof(char*));
+      tokens = realloc(tokens, bufferSize * sizeof(char*));
       if (!tokens) {
         print_failure();
       }
@@ -106,18 +106,19 @@ int launcher(char **args) {
     do {
       // WUNTRACED reports back to this process the status of the child processes
       wpid = waitpid(pid, &status, WUNTRACED);
-             // no non zero value means that the child process has not been terminated for WIFEXITED
-             // WIFSIGNALED, if we get non zero value back, this means child process was terminated
+      // no non zero value means that the child process has not been terminated for WIFEXITED
+      // WIFSIGNALED, if we get non zero value back, this means child process was terminated
     } while (!WIFEXITED(status) && !WIFSIGNALED(status));
   }
   return 1;
 }
 
 void print_failure() {
-  printf("Failure");
+  printf("Command Not Found\n");
   exit(EXIT_FAILURE);
 
 }
+
 
 
 
