@@ -9,24 +9,28 @@
 int main(int argc, char **argv) {
 
   // calls the shell funcion to loop
-  shell_loop();
+  shell_prompt();
 
 
   return EXIT_SUCCESS;
 
 }
 
-void  shell_loop() {
+void  shell_prompt() {
 
   // we need to read commands from the standard input
   char  *readLine;
   // this is the arguments
   char  **args;
   int   status;
-
+  char  hostname[1024] = "";
+// making space.
+  currentDir = (char*) calloc(1024, sizeof(char));
   do {
-    // this prints the carrot so we know to await input
-    printf("shell shell give me input >" );
+    // this prints the carrot so we know to await input with the current directory
+    gethostname(hostname, sizeof(hostname));
+    printf("%s@%s %s >\n", getenv("LOGNAME"), hostname, getcwd(currentDir, 1024));
+
     // read the contents from the line
     readLine = read_line();
     // need to tokenize the arguments so we know what is going on
@@ -38,13 +42,10 @@ void  shell_loop() {
     free(readLine);
     free(args);
   } while (1);
-
-
-
 }
 
 char *read_line() {
-  char *line;
+  char   *line;
 // allocates space for the line
   size_t buf = 0;
 // getline takes the string from line and reads up to buf size from stdin
@@ -53,10 +54,10 @@ char *read_line() {
 }
 
 char **read_args(char *line) {
-  int bufferSize = LINE_BUFFSIZE;
-  int index = 0;
-  char **tokens = malloc(bufferSize * sizeof(char*));
-  char *token;
+  int   bufferSize = LINE_BUFFSIZE;
+  int   index = 0;
+  char  **tokens = malloc(bufferSize * sizeof(char*));
+  char  *token;
 
 // if we could not allocated space for whatever reason, we need to quit out.
   if (!tokens) {
@@ -89,17 +90,20 @@ int launcher(char **args) {
 
   pid_t pid;
   pid_t wpid;
-  int status;
+  int   status;
 
 // we get a -1 if the fork fails
   if ((pid = fork()) == -1) {
-    print_failure();
+    printf("child process creation failed\n");
+    return 0;
   }
 // if we have a 0, we are in the child process
   if (pid == 0) {
+    // set the parent path name as environ variable for the child
+    setenv("parent", getcwd(currentDir, 1024), 1);
 // if we have get a -1 there was a failure for the execvp
     if (execvp(args[0], args) == -1) {
-      print_failure();
+      printf("-cshell: %s: Command not found!\n", args[0]);
     }
   } else {
     // we are in the parent process
@@ -116,27 +120,4 @@ int launcher(char **args) {
 void print_failure() {
   printf("Command Not Found\n");
   exit(EXIT_FAILURE);
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
