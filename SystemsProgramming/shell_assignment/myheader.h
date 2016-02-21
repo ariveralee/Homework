@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 
 /* static and extern variables because it makes life easier */
 static char* currentDir;
