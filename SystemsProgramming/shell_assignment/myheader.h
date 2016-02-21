@@ -28,5 +28,8 @@ int myshell_echo(char **args);
 int number_builtin();
 int execute_cmd(char **args);
 int myshell_clr(char **args);
+int myshell_env(char **args);
+int myshell_ls(char **args);
+int number_ls();
 
 #endif

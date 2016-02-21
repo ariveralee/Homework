@@ -15,7 +15,11 @@ int main(int argc, char **argv) {
   return EXIT_SUCCESS;
 
 }
-
+/* This function is for the shell prompt. The program enters
+ * with this prompt that allows the user to enter in commands
+ * the function will not terminate until ctr-c or exit has
+ * been requested
+ */
 void  shell_prompt() {
 
   // we need to read commands from the standard input
