@@ -284,12 +284,16 @@ int myshell_pause(char **args) {
     return 0;
 }
 
+/**
+ * This function allows for the user to read the manual for the specifics
+ * of what this shell program supports.
+ */
 int myshell_more(char ** args) {
     if (strcmp(args[0], "more") == 0) {
         if (args[1] == NULL) {
             printf("incorrect usage, you must provide a file name\n");
         } else {
-         execvp(args[0], args);   
+            launcher(args, 0);
         }
     }
     return 0;
