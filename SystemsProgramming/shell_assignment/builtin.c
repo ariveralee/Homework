@@ -17,7 +17,8 @@ char *builtin_cmd[] = {
     "clear",
     "echo",
     "environ",
-    "ls"
+    "ls",
+    "pause"
 };
 
 /* make an array of function pointers what take an array of strings and return int */
@@ -28,7 +29,8 @@ int (*builtin_function[]) (char **) = {
     &myshell_clr,
     &myshell_echo,
     &myshell_env,
-    &myshell_ls
+    &myshell_ls,
+    &myshell_pause
 };
 
 /* array of options to use with ls as arg[1] */
@@ -264,6 +266,14 @@ int myshell_ls(char **args) {
             }
 
         }
+    }
+    return 0;
+}
+
+int myshell_pause(char **args) {
+    if (strcmp(args[0], "pause") == 0) {
+        printf("Press enter to continue\n");
+        getchar();
     }
     return 0;
 }

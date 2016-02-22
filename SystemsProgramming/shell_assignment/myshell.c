@@ -15,7 +15,8 @@ int main(int argc, char **argv) {
   return EXIT_SUCCESS;
 
 }
-/* This function is for the shell prompt. The program enters
+/* *
+ * This function is for the shell prompt. The program enters
  * with this prompt that allows the user to enter in commands
  * the function will not terminate until ctr-c or exit has
  * been requested
@@ -48,15 +49,23 @@ void  shell_prompt() {
   } while (1);
 }
 
+/**
+ * This function reads the line entered by the user and 
+ * returns it to the  calling function.
+ */
 char *read_line() {
   char   *line;
 // allocates space for the line
-  size_t buf = 0;
+  size_t  buf = 0;
 // getline takes the string from line and reads up to buf size from stdin
   getline(&line, &buf, stdin);
   return line;
 }
 
+/**
+ * This function has the simple job of reading the arguments from our cmd
+ * line. Once the commands have been read, we return tokens for the args.
+ */
 char **read_args(char *line) {
   int   bufferSize = LINE_BUFFSIZE;
   int   index = 0;
@@ -89,7 +98,13 @@ char **read_args(char *line) {
   return tokens;
 }
 
-/* This method launches commands and processes */
+/**
+ * This method launches commands and process if they are not built in
+ * to the shell. the parameter runBackground is to see if the user has
+ * entered & at the end of the command, if runBackground is 0, we proceed
+ * as normal, if not we go right back to the command line and let the
+ * program run in the background.
+ */
 void launcher(char **args, int runBackground) {
 
   pid_t pid;

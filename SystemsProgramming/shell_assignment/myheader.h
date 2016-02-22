@@ -33,6 +33,7 @@ int execute_cmd(char **args);
 int myshell_clr(char **args);
 int myshell_env(char **args);
 int myshell_ls(char **args);
+int myshell_pause(char **args);
 int number_ls();
 void pied_piper(char *args[]);
 int shell_IO(char *args[], char *, char *, int);
