@@ -1,7 +1,0 @@
-total 1464
--rwxr-xr-x  1 ariveralee  staff   18976 Feb 22 00:46 a.out
--rw-r--r--  1 ariveralee  staff   15301 Feb 22 00:46 builtin.c
--rw-r--r--  1 ariveralee  staff     954 Feb 22 00:44 myheader.h
--rw-r--r--  1 ariveralee  staff  698376 Feb 22 00:46 myheader.h.gch
--rw-r--r--  1 ariveralee  staff    4292 Feb 22 00:44 myshell.c
--rw-r--r--  1 ariveralee  staff       0 Feb 22 00:51 output.txt

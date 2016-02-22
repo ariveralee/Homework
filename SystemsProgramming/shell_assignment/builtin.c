@@ -18,7 +18,8 @@ char *builtin_cmd[] = {
     "echo",
     "environ",
     "ls",
-    "pause"
+    "pause",
+    "more"
 };
 
 /* make an array of function pointers what take an array of strings and return int */
@@ -30,13 +31,13 @@ int (*builtin_function[]) (char **) = {
     &myshell_echo,
     &myshell_env,
     &myshell_ls,
-    &myshell_pause
+    &myshell_pause,
+    &myshell_more
 };
 
 /* array of options to use with ls as arg[1] */
 char *ls_options[] = {
     "-l",
-    "-f",
     "-m",
     "-a",
     "-al",
@@ -79,12 +80,13 @@ int myshell_cd(char **args) {
  */
 int myshell_help(char **args) {
     int i;
-    printf("\nAlexander Rivera's Shell Shell\n");
-    printf("Type your standard arguments and then hit enter, if you try otherwise it will break... maybe ;-)\n");
+    printf("\nAlexander Rivera's Sea Shell ;)\n");
+    printf("Builtin Functions are listed below: \n");
     printf("\nBuilt in Functions:\n" );
     for (i = 0; i < number_builtin(); i++) {
         printf("%s\n", builtin_cmd[i]);
     }
+    printf("\nif you need more info type \"more readme\"\n");
     return 1;
 }
 
@@ -269,11 +271,26 @@ int myshell_ls(char **args) {
     }
     return 0;
 }
+/**
+ * This function allows for the user to pause the program from taking
+ * any more input until the enter key is pressed.
+*/
 
 int myshell_pause(char **args) {
     if (strcmp(args[0], "pause") == 0) {
         printf("Press enter to continue\n");
         getchar();
+    }
+    return 0;
+}
+
+int myshell_more(char ** args) {
+    if (strcmp(args[0], "more") == 0) {
+        if (args[1] == NULL) {
+            printf("incorrect usage, you must provide a file name\n");
+        } else {
+         execvp(args[0], args);   
+        }
     }
     return 0;
 }
@@ -318,22 +335,15 @@ int shell_IO(char *args[], char *inputFile, char *outputFile, int options) {
         // we need to set the cwd to the parent so we can come back
         setenv("parent", getcwd(currentDir, 1024), 1);
 
-        // we check to see if the first argument matches our builtin commands
-        for (i = 0; i < number_builtin(); i++) {
-            if (strcmp(args[0], builtin_cmd[i]) == 0) {
-                // if it does, we run that builtin function
-                return (*builtin_function[i])(args);
-            }
+        //now lets launch the argument if it fails, exit out.
+        if (execvp(args[0], args) == -1) {
+            printf("error for I/O launch\n");
+            return 0;
         }
-        // //now lets launch the argument if it fails, exit out.
-        // if (execvp(args[0], args) == -1) {
-        //     printf("error for I/O launch\n");
-        //     return;
-        // }
     }
     return 0;
     //we wait for this to finish.
-    waitpid(pid, NULL, 0);
+    //waitpid(pid, NULL, 0);
 }
 
 /**
