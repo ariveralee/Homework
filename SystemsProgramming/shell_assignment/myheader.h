@@ -35,6 +35,6 @@ int myshell_env(char **args);
 int myshell_ls(char **args);
 int number_ls();
 void pied_piper(char *args[]);
-void shell_IO(char *args[], char *, char *, int);
+int shell_IO(char *args[], char *, char *, int);
 
 #endif

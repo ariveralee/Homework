@@ -108,22 +108,34 @@ int execute_cmd(char **args) {
     char    *redirect_arg[256];
     int     alt;
     int     runBackground = 0;
+    int     specialCmd = 0;
 
 // if we have NULL, there's no command entered, do nothing.
     if (args[0] == NULL) {
         printf("\n");
         return 1;
     }
+
 // before we do anything, let's check to see if we have special commands
     while (args[j] != NULL) {
         if ((strcmp(args[j], ">") == 0) || (strcmp(args[j], "&") == 0) || (strcmp(args[j], "<") == 0)) {
+            specialCmd = 1;
             break;
         }
         redirect_arg[j] = args[j];
         j++;
     }
+    if (specialCmd == 0) {
+        // we check to see if the first argument matches our builtin commands
+        for (i = 0; i < number_builtin(); i++) {
+            if (strcmp(args[0], builtin_cmd[i]) == 0) {
+                // if it does, we run that builtin function
+                return (*builtin_function[i])(args);
+            }
+        }
+    }
 
-// next, determine if we need to do I/O redirection
+// if we get to here, none of the builtin functions were used so it must be a program.
     while (args[k] != NULL && runBackground == 0) {
         if (strcmp(args[k], "&") == 0) {
             runBackground = 1;
@@ -159,15 +171,6 @@ int execute_cmd(char **args) {
             return 1;
         }
         k++;
-    }
-    // we check to see if the first argument matches our builtin commands
-    for (i = 0; i < number_builtin(); i++) {
-        if (strcmp(redirect_arg[0], builtin_cmd[i]) == 0) {
-
-
-            // if it does, we run that builtin function
-            return (*builtin_function[i])(redirect_arg);
-        }
     }
     // run the program or arguments
     launcher(redirect_arg, runBackground);
@@ -271,14 +274,14 @@ int myshell_ls(char **args) {
  * the design of this function has been heavily influence by Professor Fiore's
  * examples in class
  */
-void shell_IO(char *args[], char *inputFile, char *outputFile, int options) {
+int shell_IO(char *args[], char *inputFile, char *outputFile, int options) {
     int fileDesc;
-
+    int i ;
     pid_t pid;
     // fork returns -1 on failure.
     if ((pid = fork()) == -1) {
         printf("child process creation failed\n");
-        return;
+        return 0;
     }
 
     // we are in the child process
@@ -305,12 +308,20 @@ void shell_IO(char *args[], char *inputFile, char *outputFile, int options) {
         // we need to set the cwd to the parent so we can come back
         setenv("parent", getcwd(currentDir, 1024), 1);
 
-        //now lets launch the argument if it fails, exit out.
-        if (execvp(args[0], args) == -1) {
-            printf("error for I/O launch\n");
-            return;
+        // we check to see if the first argument matches our builtin commands
+        for (i = 0; i < number_builtin(); i++) {
+            if (strcmp(args[0], builtin_cmd[i]) == 0) {
+                // if it does, we run that builtin function
+                return (*builtin_function[i])(args);
+            }
         }
+        // //now lets launch the argument if it fails, exit out.
+        // if (execvp(args[0], args) == -1) {
+        //     printf("error for I/O launch\n");
+        //     return;
+        // }
     }
+    return 0;
     //we wait for this to finish.
     waitpid(pid, NULL, 0);
 }
