@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
+#include <sys/types.h>
+#include <signal.h>
 #include <fcntl.h>
 
 /* static and extern variables because it makes life easier */
@@ -18,7 +20,7 @@ void shell_prompt();
 void print_failure();
 char *read_line();
 char **read_args(char *);
-int launcher(char **args);
+void launcher(char **args, int);
 
 
 /* Function Declarations for builtin.c */
@@ -32,5 +34,7 @@ int myshell_clr(char **args);
 int myshell_env(char **args);
 int myshell_ls(char **args);
 int number_ls();
+void pied_piper(char *args[]);
+void shell_IO(char *args[], char *, char *, int);
 
 #endif

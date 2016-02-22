@@ -90,7 +90,7 @@ char **read_args(char *line) {
 }
 
 /* This method launches commands and processes */
-int launcher(char **args) {
+void launcher(char **args, int runBackground) {
 
   pid_t pid;
   pid_t wpid;
@@ -99,7 +99,7 @@ int launcher(char **args) {
 // we get a -1 if the fork fails
   if ((pid = fork()) == -1) {
     printf("child process creation failed\n");
-    return 0;
+    return;
   }
 // if we have a 0, we are in the child process
   if (pid == 0) {
@@ -111,17 +111,22 @@ int launcher(char **args) {
     }
   } else {
     // we are in the parent process
-    do {
-      // WUNTRACED reports back to this process the status of the child processes
-      wpid = waitpid(pid, &status, WUNTRACED);
-      // no non zero value means that the child process has not been terminated for WIFEXITED
-      // WIFSIGNALED, if we get non zero value back, this means child process was terminated
-    } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+    if (runBackground == 0) {
+      do {
+        // WUNTRACED reports back to this process the status of the child processes
+        wpid = waitpid(pid, &status, WUNTRACED);
+        // no non zero value means that the child process has not been terminated for WIFEXITED
+        // WIFSIGNALED, if we get non zero value back, this means child process was terminated
+      } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+    } else {
+      // do nothing we wait.
+    }
   }
-  return 1;
 }
 
+
+
 void print_failure() {
-  printf("Command Not Found\n");
+  printf("ERROR!\n");
   exit(EXIT_FAILURE);
 }
