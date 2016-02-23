@@ -18,8 +18,11 @@ char *builtin_cmd[] = {
     "echo",
     "environ",
     "ls",
-    "pause"
-    //"more"
+    "pause",
+    "more",
+    "sh",
+    "bash",
+    "pwd"
 };
 
 /* make an array of function pointers what take an array of strings and return int */
@@ -32,7 +35,10 @@ int (*builtin_function[]) (char **) = {
     &myshell_env,
     &myshell_ls,
     &myshell_pause,
-    //&myshell_more
+    &myshell_more,
+    &myshell_sh,
+    &myshell_bash,
+    &myshell_pwd
 };
 
 /* array of options to use with ls as arg[1] */
@@ -288,13 +294,37 @@ int myshell_pause(char **args) {
  * This function allows for the user to read the manual for the specifics
  * of what this shell program supports.
  */
-int myshell_more(char ** args) {
+int myshell_more(char **args) {
     if (strcmp(args[0], "more") == 0) {
         if (args[1] == NULL) {
             printf("incorrect usage, you must provide a file name\n");
         } else {
             launcher(args, 0);
         }
+    }
+    return 0;
+}
+
+int myshell_sh(char **args) {
+    if (strcmp(args[0], "sh") == 0) {
+        launcher(args, 0);
+    }
+    return 0;
+}
+
+int myshell_pwd(char **args) {
+    if (strcmp(args[0], "pwd") == 0) {
+
+        printf("%s\n", getcwd(currentDir, 1024));
+        return 1;
+    }
+    return 0;
+
+}
+
+int myshell_bash(char **args) {
+    if (strcmp(args[0], "bash") == 0) {
+        launcher(args, 0);
     }
     return 0;
 }
