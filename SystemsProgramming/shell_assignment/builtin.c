@@ -18,8 +18,8 @@ char *builtin_cmd[] = {
     "echo",
     "environ",
     "ls",
-    "pause",
-    "more"
+    "pause"
+    //"more"
 };
 
 /* make an array of function pointers what take an array of strings and return int */
@@ -32,7 +32,7 @@ int (*builtin_function[]) (char **) = {
     &myshell_env,
     &myshell_ls,
     &myshell_pause,
-    &myshell_more
+    //&myshell_more
 };
 
 /* array of options to use with ls as arg[1] */
