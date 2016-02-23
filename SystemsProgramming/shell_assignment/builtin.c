@@ -365,7 +365,6 @@ int myshell_bash(char **args) {
  */
 int shell_IO(char *args[], char *inputFile, char *outputFile, int options) {
     int fileDesc;
-    int i ;
     pid_t pid;
     // fork returns -1 on failure.
     if ((pid = fork()) == -1) {
