@@ -50,7 +50,7 @@ void  shell_prompt() {
 }
 
 /**
- * This function reads the line entered by the user and 
+ * This function reads the line entered by the user and
  * returns it to the  calling function.
  */
 char *read_line() {
@@ -140,7 +140,9 @@ void launcher(char **args, int runBackground) {
 }
 
 
-
+/**
+ * Simple print error function
+ */
 void print_failure() {
   printf("ERROR!\n");
   exit(EXIT_FAILURE);

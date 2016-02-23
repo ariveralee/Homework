@@ -89,6 +89,36 @@ pause -     pauses the running of the shell until the enter key is pressed
 usage:      pause
 
 /************************************************************************/
+
+more -      more allows for the user to read contents of a specified file
+
+usage:      more <filename>
+
+/************************************************************************/
+
+sh -        sh is used to execute a .sh file otherwise known as a batch
+            file. This is synonymous with 'bash'
+
+usage:      sh <file.sh>
+
+/************************************************************************/
+
+bash -      bash is sued to execute a .sh file otherwise known as a batch
+            file. This is synonymous with 'sh'
+
+usage:      bash <file.sh>
+
+/************************************************************************/
+
+pwd -       pwd is used for the user to print the current working directory
+            of the file system.
+
+usage:      pwd
+
+/************************************************************************/
+
+
+/************************************************************************/
 *                                                                        *
 *                       USAGE OF PROGRAM COMMANDS                        *
 *                                                                        *

@@ -100,7 +100,9 @@ int myshell_help(char **args) {
  *simple function, if the user calls exit, we exit
  */
 int myshell_exit(char **args) {
-    return 0;
+    exit(0);
+    // wont reach here anyway but too lazy to fix.
+    return 1;
 }
 
 /**
@@ -297,7 +299,7 @@ int myshell_pause(char **args) {
 int myshell_more(char **args) {
     if (strcmp(args[0], "more") == 0) {
         if (args[1] == NULL) {
-            printf("incorrect usage, you must provide a file name\n");
+            printf("incorrect usage, you must provide a file name. see readme for more info\n");
         } else {
             launcher(args, 0);
         }
@@ -305,13 +307,26 @@ int myshell_more(char **args) {
     return 0;
 }
 
+/**
+ * This function allows for the user to use the sh command
+ * the sh command allows for the user to run a .sh file
+ * which is the equivalent to a batch file for windows.
+ */
 int myshell_sh(char **args) {
     if (strcmp(args[0], "sh") == 0) {
+        if (args[1] == NULL) {
+            printf("sh: you must provide a file to execute see readme for more info.\n");
+            return 0;
+        }
         launcher(args, 0);
     }
     return 0;
 }
 
+/**
+ * This function allows for the user to print the
+ * current working directory.
+ */
 int myshell_pwd(char **args) {
     if (strcmp(args[0], "pwd") == 0) {
 
@@ -321,15 +336,28 @@ int myshell_pwd(char **args) {
     return 0;
 
 }
-
+/**
+ * This function allows for the user to use the bash command
+ * the bash command allows for the user to run a .sh file
+ * which is the equivalent to a batch file for windows. The
+ * bash command is an alternative command to the sh command.
+ */
 int myshell_bash(char **args) {
     if (strcmp(args[0], "bash") == 0) {
+        if (args[1] == NULL) {
+            printf("bash: you must provide a file to execute. see readme for more info\n");
+            return 0;
+        }
         launcher(args, 0);
     }
     return 0;
 }
 
-/**********************************************************************************/
+/*******************************************************************************/
+/**
+ * Everything below this line is utility functions.
+ */
+/*******************************************************************************/
 /**
  * The function below handles the redirecting associated with input and output
  * the design of this function has been heavily influence by Professor Fiore's

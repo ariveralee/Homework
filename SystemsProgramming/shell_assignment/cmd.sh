@@ -1,5 +1,6 @@
 #!/bin/bash
 
 ls -l
-echo such my dick
-help
+echo "hello how are you"
+echo "hey girl wassup!"
+ls -a
