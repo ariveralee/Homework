@@ -1,3 +1,7 @@
+/**
+ * Shell implementation by Alexander Rivera for Operating Systems.
+ */
+
 #include "myheader.h"
 
 #define EXIT_SUCCESS 0

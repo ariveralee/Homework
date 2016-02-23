@@ -1,3 +1,6 @@
+/**
+ * Shell implementation by Alexander Rivera for Operating Systems.
+ */
 #include "myheader.h"
 
 #define CMD_BUFFSIZE 256
@@ -137,6 +140,7 @@ int execute_cmd(char **args) {
         redirect_arg[j] = args[j];
         j++;
     }
+    // used to see if we have input or output redirection.
     if (specialCmd == 0) {
         // we check to see if the first argument matches our builtin commands
         for (i = 0; i < number_builtin(); i++) {

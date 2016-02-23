@@ -1,3 +1,7 @@
+/**
+ * Shell implementation by Alexander Rivera for Operating Systems.
+ */
+ 
 #ifndef _myheader_h
 #define _myheader_h
 
