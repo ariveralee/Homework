@@ -1,0 +1,146 @@
+/************************************************************************/
+*                                                                        *
+*                                                                        *
+*                       Manual for Sea Shell ;)                          *
+*                                                                        *
+*                                                                        *
+/************************************************************************/
+
+
+BUILT IN FUNCTIONS:
+
+help -   prints information regarding shell commands and usage
+         usage: help
+
+/************************************************************************/
+
+cd -     Checks the directory path given. If cd is used with "..", it
+        moves the user down one level in the filesystem. cd used by it
+        self moves the user to the HOME path.
+
+usage:  cd <directory path>, cd <..>, cd < >
+
+/************************************************************************/
+
+exit -  allows the user to exit the shell program, no arguments are required
+
+usage:  exit
+
+/************************************************************************/
+
+clear - clears the text filling up the terminal screen.
+
+usage:  clear
+
+/************************************************************************/
+
+echo - allows the user to print a entered string to stdout (the command 
+       prompt). You can also use echo by itself, though nothing happens
+       
+usage: echo <String>
+
+/************************************************************************/
+
+environ - prints all of the strings for the environment, information 
+          includes the path variable name as well as information about
+          the terminal window itself.
+
+usage:    environ
+
+/************************************************************************/
+
+ls -    lists all of the files in the currently directory. ls can be used
+        with a number of different arguments to print file permissions
+        and other important information about the files in the directory
+
+*Current supported ls commands aside from just ls are listed below:
+
+ls -a   lists all of the entries starting with "."
+
+ls -d   list the directory entries instead of the contents
+
+ls -l   uses a long listing format
+
+ls -al  list all entries starting with . with a long list format
+
+ls -g   just like ls -l only it does not list the owner of the file
+
+ls -m   fill width with a coma separated list of entries 
+
+ls -o   like -l. but do not list group information
+
+ls -r   reverse the order while sorting
+
+ls -s   prints the size of each file in blocks
+
+ls -t   sorts by modification time
+
+ls -x   list entries by lines instead of coulmns.
+
+ls -1   lists one file per line.
+
+
+usage: ls, ls -<argument 2> 
+
+/************************************************************************/
+
+pause -     pauses the running of the shell until the enter key is pressed
+
+usage:      pause
+
+/************************************************************************/
+
+more -      more allows for the user to read contents of a specified file
+
+usage:      more <filename>
+
+/************************************************************************/
+
+sh -        sh is used to execute a .sh file otherwise known as a batch
+            file. This is synonymous with 'bash'
+
+usage:      sh <file.sh>
+
+/************************************************************************/
+
+bash -      bash is sued to execute a .sh file otherwise known as a batch
+            file. This is synonymous with 'sh'
+
+usage:      bash <file.sh>
+
+/************************************************************************/
+
+pwd -       pwd is used for the user to print the current working directory
+            of the file system.
+
+usage:      pwd
+
+/************************************************************************/
+
+
+/************************************************************************/
+*                                                                        *
+*                       USAGE OF PROGRAM COMMANDS                        *
+*                                                                        *
+/************************************************************************/
+
+Pipe -   can be used to use one command as anothers input
+
+usage:   <cmd> | <cmd>
+
+/************************************************************************/
+
+I/O redirection - allows for input or output to be redirected in the
+                  following usage:
+
+usage:          <cmd> <args> > <output>
+                <cmd> <args> < <input> > <output>
+
+/************************************************************************/
+
+Background execution -  Allows user to have program execute in the
+                        background while still using the command line.
+
+usage:                  <args> &
+
+/************************************************************************/
