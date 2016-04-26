@@ -7,7 +7,7 @@
 #define PRODUCER_SPEED      50000      // producer thread sleep time micro secs  
 #define CONSUMER_SPEED      80000      // consumer thread sleep time micro secs 
 #define NUM_PRODUCERS       4        // number of producers 
-#define NUM_CONSUMERS       5          // number of consumers 
+#define NUM_CONSUMERS       2          // number of consumers 
 #define BUFFER_SIZE         25         //  number of slots in buffer 
 #define MAX                 50        // number of items produced/consumed 
 #define PRINT_LOG           0          // 1 for use log printing and 0 for console
